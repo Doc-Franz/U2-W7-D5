@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Details</title>
+  </head>
+  <body>
+    <div class="photo-container d-flex justify-content-center align-items-center" style="width: 100%; height: auto"></div>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const elementId = params.get("elementId");
+      const URL = "https://striveschool-api.herokuapp.com/api/product/";
+      const apiKey =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzM3MGVmZThhZDEyOTAwMTU4NzZiY2MiLCJpYXQiOjE3MzE2NjE1NjYsImV4cCI6MTczMjg3MTE2Nn0.zyjCSsZJqhSVs7f1I4y0KNB5Z_WWwhG3F8sAEHzpQ98";
+      const photoContainer = document.querySelector(".photo-container");
+
+      fetch(URL + elementId, {
+        headers: { Authorization: `Bearer ${apiKey}` }
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const img = document.createElement("img");
+          const description = document.createElement("p");
+          img.src = data.imageUrl;
+          description.innerText = data.description;
+          img.classList.add("img-fluid");
+
+          photoContainer.appendChild(img);
+          photoContainer.appendChild(description);
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Back-office</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  </head>
+  <body class="bg-dark text-light">
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col">
+          <a class="navbar-brand" href="#"><img src="./assets/images/logo.png" alt="logo" style="margin-left: -10px" /></a>
+        </div>
+        <div class="col"><button class="btn btn-success" id="add-element">Add elements</button></div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      const URL = "https://striveschool-api.herokuapp.com/api/product/";
+      const apiKey =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzM3MGVmZThhZDEyOTAwMTU4NzZiY2MiLCJpYXQiOjE3MzE2NjE1NjYsImV4cCI6MTczMjg3MTE2Nn0.zyjCSsZJqhSVs7f1I4y0KNB5Z_WWwhG3F8sAEHzpQ98";
+      const addProductBtn = document.getElementById("add-element");
+      const goBack = document.getElementById("back.to-homepage");
+
+      const handleCards = () => {
+        const newProducts = [
+          {
+            name: "MacBook Pro",
+            description: "Best performance",
+            brand: "Apple",
+            imageUrl:
+              "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/refurb-mbp13-space-m1-2020_GEO_IT?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1628621773000",
+            price: 2199
+          },
+          {
+            name: "Microsoft Surface Studio",
+            description: "Indistructible",
+            brand: "Microsoft",
+            imageUrl: "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/surface-pro-11th-edition-color-og-twitter-image?scl=1",
+            price: 1699
+          },
+          {
+            name: "Dell XPS",
+            description: "13 Plus",
+            brand: "Dell",
+            imageUrl:
+              "https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/16-9640/media-gallery/silver/touch/notebook-laptop-xps-16-9640-t-silver-gallery-5.psd?fmt=pjpg&pscan=auto&scl=1&wid=3478&hei=2132&qlt=100,1&resMode=sharp2&size=3478,2132&chrss=full&imwidth=5000",
+            price: 1899
+          },
+          {
+            name: "HP 255",
+            description: "G9",
+            brand: "HP",
+            imageUrl:
+              "https://kaas.hpcloud.hp.com/PROD/v2/renderbinary/6262400/6262612/com-win-nb-p-hp-elitebook-840-g9-warpath14-product-specification/com-nb-hp-elitebook-840-g9-product-image",
+            price: 699
+          }
+        ];
+
+        newProducts.forEach((product) => {
+          fetch(URL, {
+            method: "POST",
+            body: JSON.stringify(product),
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${apiKey}`
+            }
+          })
+            .then((response) => {
+              if (response.ok) {
+                console.log(`Risposta positiva`);
+                return response.json();
+              } else {
+                throw new Error(`Errore nella chiamata`);
+              }
+            })
+            .then((data) => console.log(data))
+            .catch((error) => console.error(error));
+        });
+      };
+
+      addProductBtn.onclick = () => {
+        handleCards();
+      };
+    </script>
+  </body>
+</html>
